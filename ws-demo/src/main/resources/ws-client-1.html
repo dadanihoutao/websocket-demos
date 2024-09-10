@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>client ws</title>
+    <style>
+      .container {
+        width: 600px;
+        height: 600px;
+        border: 1px solid #000000;
+      }
+      .info {
+        border: 1px solid #000000;
+        width: 600px;
+      }
+      .msg {
+        height: 60px;
+        font-size: 30px;
+        width: 500px;
+      }
+      .sendBtn {
+        height: 60px;
+        width: 80px;
+      }
+    </style>
+</head>
+<body>
+
+<div class="container"></div>
+<div class="info">
+  <input type="text" class="msg">
+  <button class="sendBtn">发送</button>
+</div>
+
+<script>
+
+  const ws = new WebSocket("ws://localhost:8080/myWs1")
+
+  ws.onopen = function () {
+    console.log('链接成功')
+  }
+
+  ws.onmessage = function (message) {
+    document.querySelector('.container').innerHTML = message.data
+  }
+
+  const sendBtn = document.querySelector('.sendBtn')
+  sendBtn.onclick = function () {
+      let msg = document.querySelector(".msg");
+      console.log(msg.value)
+      if (!msg.value) {
+          return alert("请输入内容")
+      }
+      ws.send(msg.value)
+      msg.value = ''
+  }
+
+
+
+</script>
+</body>
+</html>
